@@ -8,7 +8,7 @@ on:
 jobs:
   terraform:
     name: 'Terraform'
-    runs-on: ubuntu-latest
+    runs-on: pe-arc-runner-shared-npd
 
     steps:
       - name: 'Checkout'
@@ -24,17 +24,17 @@ jobs:
         uses: hashicorp/setup-terraform@v1
 
       - name: 'Terraform Init'
-        run: terraform init
+        run: cd GCP-GHA && terraform init
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }} 
 
       - name: 'Terraform Plan'
-        run: terraform plan
+        run: cd GCP-GHA && terraform plan -var-file environments/layers/npd/env.tfvars
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }} 
 
       - name: 'Terraform Apply'
         if: github.ref == 'refs/heads/main'
-        run: terraform apply -auto-approve
+        run: cd GCP-GHA && terraform apply -auto-approve -var-file environments/layers/npd/env.tfvars
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
