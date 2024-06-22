@@ -1,6 +1,6 @@
 # Cloud Storage Bucket to store website (Once a bucket has been created, its location can't be changed.)
 resource "google_storage_bucket" "static_webpage" {
-  name     = "static-webpage-bucket"
+  name     = "static-webpage-bucket1"
   location = "US"                          # Multi-region location code
   storage_class = "STANDARD"
 }
