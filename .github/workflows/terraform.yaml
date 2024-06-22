@@ -8,7 +8,7 @@ on:
 jobs:
   terraform:
     name: 'Terraform'
-    runs-on: ubuntu-latest
+    runs-on: pe-arc-runner-shared-npd
 
     steps:
       - name: 'Checkout'
