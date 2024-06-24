@@ -28,4 +28,5 @@ jobs:
       runner-label: pe-arc-runner-shared-npd
       tfvars: >-
         "-var=GCP_SA_KEY=$GCP_SA_KEY"
+        "-var=GCP_PROJECT_ID=$GCP_PROJECT_ID"
     secrets: inherit    
