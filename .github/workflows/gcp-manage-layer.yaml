@@ -19,7 +19,7 @@ on:
 jobs:
   deploy-npd:
     if: github.event_name == 'pull_request' || github.ref_name == 'main'
-    uses: AnoopHegde/platformengine-reusable-workflows/.github/workflows/terraform-deploy-gcp.yaml@v0.1.6
+    uses: AnoopHegde/platformengine-reusable-workflows/.github/workflows/terraform-deploy-gcp.yaml@main
     with:
       github-env: npd
       environment: npd
