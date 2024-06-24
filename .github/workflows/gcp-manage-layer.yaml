@@ -24,7 +24,7 @@ jobs:
       github-env: npd
       environment: npd
       working-directory: GCP-GHA
-      vars-path: ../../environments/layers/npd/env.tfvars
+      vars-path: ../environments/layers/npd/env.tfvars
       runner-label: pe-arc-runner-shared-npd
       tfvars: >-
         "-var=GCP_SA_KEY=$GCP_SA_KEY"
