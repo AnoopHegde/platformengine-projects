@@ -28,13 +28,3 @@ variable "database_disk_size" {
   description = "Disk size of the DB"
   type        = string
 }
-
-# variable "db_subnet1_name" {
-#   description = "The name of the db subnet 1"
-#   type        = string
-# }
-
-# variable "db_subnet2_name" {
-#   description = "The name of the db subnet 2"
-#   type        = string
-# }

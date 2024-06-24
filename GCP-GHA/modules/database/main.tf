@@ -1,6 +1,6 @@
 # Create a private IP range for the VPC
 resource "google_compute_global_address" "private_ip_address" {
-  name          = "private-ip-address"
+  name          = local.gcp_global_address
   purpose       = "VPC_PEERING"
   address_type  = "INTERNAL"
   prefix_length = 16
@@ -17,7 +17,7 @@ resource "google_service_networking_connection" "private_vpc_connection" {
 
 # Primary Cloud SQL instance configuration
 resource "google_sql_database_instance" "master" {
-  name             = "app-db-master"
+  name             = local.gcp_sql_db_instance
   region           = var.region1
   database_version = var.database_version
   depends_on =    [google_service_networking_connection.private_vpc_connection]
@@ -41,7 +41,7 @@ resource "google_sql_database_instance" "master" {
 
 # Read replica Cloud SQL instance configuration
 resource "google_sql_database_instance" "read_replica" {
-  name                 = "app-db-read-replica"
+  name                 = local.gcp_sql_read_replica
   master_instance_name = "${google_sql_database_instance.master.name}"
   region               = var.region2
   database_version     = var.database_version

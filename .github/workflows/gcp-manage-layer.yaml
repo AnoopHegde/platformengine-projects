@@ -1,0 +1,31 @@
+name: 'GCP Manage Layer workflow'
+
+on:
+  push:
+    branches:
+    - main
+    paths:
+    - '.github/workflows/gcp-manage-layer.yaml'
+    - 'GCP-GHA/environments/layers/**'
+    - 'GCP-GHA/**'
+  pull_request:
+    branches:
+    - main    
+    paths:
+    - '.github/workflows/gcp-manage-layer.yaml'
+    - 'GCP-GHA/environments/layers/**'
+    - 'GCP-GHA/**'
+
+jobs:
+  deploy-npd:
+    if: github.event_name == 'pull_request' || github.ref_name == 'main'
+    uses: AnoopHegde/platformengine-reusable-workflows/.github/workflows/terraform-deploy-gcp.yaml@v0.1.6
+    with:
+      github-env: npd
+      environment: npd
+      working-directory: GCP-GHA
+      vars-path: ../../environments/layers/npd/env.tfvars
+      runner-label: pe-arc-runner-shared-npd
+      tfvars: >-
+        "-var=GCP_SA_KEY=$GCP_SA_KEY"
+    secrets: inherit    

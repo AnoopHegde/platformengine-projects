@@ -1,10 +1,21 @@
 ## Common Variables for GCP ####
 
+####### Project Details ###########
+#                                 #
+###################################
 project_id  = "stone-botany-426817-p5"
 
+
+####### Geo-Location ##########
+#                             #
+###############################
 region1     = "us-central1"
 region2     = "europe-north1"
 
+
+####### Network ###############
+#                             #
+###############################
 vpc_network_name = "web-app-vpc"
 
 web_subnet1_name = "web-subnet-1"

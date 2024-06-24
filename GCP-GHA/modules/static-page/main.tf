@@ -1,8 +1,8 @@
 # Cloud Storage Bucket to store website (Once a bucket has been created, its location can't be changed.)
 resource "google_storage_bucket" "static_webpage" {
-  name     = "static-webpage-bucket1"
-  location = "US"                          # Multi-region location code
-  storage_class = "STANDARD"
+  name     = local.static_webpage_name
+  location = local.location                          
+  storage_class = local.storage_class
 }
 
 
@@ -10,14 +10,14 @@ resource "google_storage_bucket" "static_webpage" {
 resource "google_storage_object_access_control" "public_rule" {
   object = google_storage_bucket_object.static_site_src.output_name
   bucket = google_storage_bucket.static_webpage.id
-  role   = "READER"
-  entity = "allUsers"
+  role   = local.gcp_role
+  entity = local.gcp_entity
 }
 
 # Upload the html file to the bucket
 resource "google_storage_bucket_object" "static_site_src" {
   name   = "index.html"
-  source = "${path.module}/index.html"
+  source = "${path.module}/templates/index.html"
   bucket = google_storage_bucket.static_webpage.name
   
 }

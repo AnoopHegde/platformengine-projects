@@ -1,13 +1,13 @@
 # Reserve an external IP
 resource "google_compute_global_address" "website" {
   provider = google
-  name     = "website-lb-ip"
+  name     = local.gcp_website_address
 }
 
 # Get the managed DNS zone
 data "google_dns_managed_zone" "custom_dns_zone" {
   provider = google
-  name     = "gcp-terraform-dns-zone"
+  name     = local.gcp_custom_dns
 }
 
 # Add the IP to the DNS
@@ -38,7 +38,7 @@ resource "google_compute_health_check" "default" {
 
 # backend service with custom request and response headers
 resource "google_compute_backend_service" "default" {
-  name                = "mig-backend-service"
+  name                = local.gcp_backend_service
   project             = var.project_id
   protocol            = "HTTP"
   session_affinity    = "NONE"
@@ -64,18 +64,8 @@ resource "google_compute_backend_service" "default" {
   ]
 }
 
-# # Create HTTPS certificate
-# resource "google_compute_managed_ssl_certificate" "website" {
-#   provider = google-beta
-#   name     = "website-cert"
-#   managed {
-#     domains = [google_dns_record_set.website.name]
-#   }
-# }
-
-
 resource "google_compute_url_map" "website" {
-  name            = "website-url-map"
+  name            = local.gcp_url_map
   default_service = google_compute_backend_service.default.id
 
   host_rule {
@@ -107,20 +97,9 @@ resource "google_compute_url_map" "website" {
   
 }
 
-
-### GCP target HTTPS proxy ###
-
-# resource "google_compute_target_https_proxy" "website" {
-#   provider         = google
-#   name             = "website-target-proxy"
-#   url_map          = google_compute_url_map.website.self_link
-#   ssl_certificates = [google_compute_managed_ssl_certificate.website.self_link]
-# }
-
-
 # GCP target HTTP proxy
 resource "google_compute_target_http_proxy" "website" {
-  name    = "website-target-proxy"
+  name    = local.gcp_http_proxy
   url_map = google_compute_url_map.website.self_link
   depends_on = [
     google_compute_url_map.website
@@ -130,7 +109,7 @@ resource "google_compute_target_http_proxy" "website" {
 # GCP forwarding rule
 resource "google_compute_global_forwarding_rule" "default" {
   provider              = google
-  name                  = "website-forwarding-rule"
+  name                  = local.gcp_forwarding_rule
   load_balancing_scheme = "EXTERNAL"
   ip_address            = google_compute_global_address.website.address
   ip_protocol           = "TCP"

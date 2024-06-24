@@ -38,7 +38,7 @@ resource "google_compute_instance_template" "appserver" {
   }
 
   metadata = {
-    startup-script = file("${path.module}/startup-script.sh")
+    startup-script = file("${path.module}/scripts/startup-script.sh")
   }
 
   lifecycle {
