@@ -19,13 +19,14 @@ on:
 jobs:
   deploy-npd:
     if: github.event_name == 'pull_request' || github.ref_name == 'main'
-    uses: AnoopHegde/platformengine-reusable-workflows/.github/workflows/terraform-deploy-gcp.yaml@v0.1.6
+    uses: AnoopHegde/platformengine-reusable-workflows/.github/workflows/terraform-deploy-gcp.yaml@main
     with:
       github-env: npd
       environment: npd
       working-directory: GCP-GHA
-      vars-path: ../../environments/layers/npd/env.tfvars
+      vars-path: ./environments/layers/npd/env.tfvars
       runner-label: pe-arc-runner-shared-npd
-      tfvars: >-
-        "-var=GCP_SA_KEY=$GCP_SA_KEY"
+      #tfvars: >-
+      #  "-var=GCP_SA_KEY=$GCP_SA_KEY"
+      #  "-var=GCP_PROJECT_ID=$GCP_PROJECT_ID"
     secrets: inherit    
